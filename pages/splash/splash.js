@@ -1,7 +1,8 @@
 // index.js
 // 获取应用实例
 const app = getApp()
-
+// 在页面中定义激励视频广告
+let videoAd = null
 Page({
  
     makePhoneCall() {
@@ -12,8 +13,10 @@ Page({
     },
 
   data: {
-    motto: 'Hello World',
+    
+    motto: 'splash',
     userInfo: {},
+    isplay:false,
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
@@ -22,35 +25,51 @@ Page({
   // 事件处理函数
   bindViewTap() {
     wx.navigateTo({
-      url: '../logs/logs'
+      url: '../index/index',
+    })
+  },
+
+  goto() {
+    wx.navigateTo({
+      url: '../index/index'
     })
   },
   onLoad() {
-    if (wx.getUserProfile) {
-      this.setData({
-        canIUseGetUserProfile: true
+    // 在页面onLoad回调事件中创建激励视频广告实例
+    if(wx.getSystemInfoSync().SDKVersion >= "2.6.0") {
+      if (wx.createRewardedVideoAd) {
+        videoAd = wx.createRewardedVideoAd({
+          adUnitId: 'adunit-0c3757d9bab8cf29'
+        })
+        videoAd.onLoad(() => {})
+        videoAd.onError((err) => {})
+        videoAd.onClose((res) => {
+          if (res && res.isEnded) {
+            // 正常播放结束，可以下发游戏奖
+              wx.navigateTo({
+                url: '../index/index'
+              })
+          }
+        })
+        videoAd.show()
+        // 用户点击了【关闭广告】按钮
+      }
+    }
+
+    if(!this.data.isplay) {
+      wx.showModal({
+      title: '温馨提示',
+      content: '须观看激励视频广告，才能解锁使用',
+        success(res) {
+          if (res.confirm) {
+            videoAd.show()
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
       })
+    }  else {
+      
     }
   },
-  getUserProfile(e) {
-    // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
-    wx.getUserProfile({
-      desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-      success: (res) => {
-        console.log(res)
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    })
-  },
-  // getUserInfo(e) {
-  //   // 不推荐使用getUserInfo获取用户信息，预计自2021年4月13日起，getUserInfo将不再弹出弹窗，并直接返回匿名的用户个人信息
-  //   console.log(e)
-  //   this.setData({
-  //     userInfo: e.detail.userInfo,
-  //     hasUserInfo: true
-  //   })
-  // }
 })

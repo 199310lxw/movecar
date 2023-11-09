@@ -1,12 +1,6 @@
 {
-
-    "permission": {
-      "scope.makePhoneCall": {
-        "desc": "你的电话将用于拨打车主电话"
-      }
-    },
-  
   "pages":[
+    "pages/splash/splash",
     "pages/index/index",
     "pages/logs/logs"
   ],
