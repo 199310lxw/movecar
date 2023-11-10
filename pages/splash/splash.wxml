@@ -1,3 +1,4 @@
-<!--index.wxml-->
-<view class="container" >
+<view class="container">
+  <image class="background" style="background-image:url('/images/flash.jpg');"></image>
 </view>
+

@@ -1,27 +1,7 @@
-/**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #aaa;
-}
-
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.phone-button {
-  background-color: #1AAD19;
-  color: #fff;
-  border-radius: 20px;
-  width: 10px;
-  height: 40px;
-}
-
-.usermotto {
-  margin-top: 200px;
+.contact {
+     background-color: rgb(177, 166, 11);
+     color: rgb(34, 31, 31);
+     height: 60px;
+     width: 100%;
+     padding: 18px;
 }
